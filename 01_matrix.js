@@ -12,7 +12,7 @@ var updateMatrix = function(mat) {
                 } else if(mat[i + 1] !== undefined && mat[i + 1][j] === 0){ 
                     mat[i][j] = 1;
                 } else {
-                    mat[i][j] = findDist(mat, i, j, 0);
+                    mat[i][j] = findDist(mat, i, j);
                 }
             }
         }
@@ -20,32 +20,67 @@ var updateMatrix = function(mat) {
     return mat;
 };
 
-var findDist = function(mat, i, j, c, currentMin = mat.length) {
-    let index = [];
-    if(c > currentMin) return c;
-    if(i < 0 || j < 0 || i >= mat.length || j >= mat[0].length || mat[i][j] === null || c >= currentMin) return Infinity;
+var findDist = function(mat, i, j, c = 0) {
+
+    if(i < 0 || j < 0 || i >= mat.length || j >= mat[0].length || mat[i][j] === null) return Infinity;
+
     if(mat[i][j] === 0) return c;
-    if(mat[i][j] === 1){ 
-        mat[i][j] = null;
-        index.push(i, j)
-    };
 
-    let left = findDist(mat, i, j - 1, c + 1, currentMin);
-    if(left < currentMin) currentMin = left;
-    let right = findDist(mat, i, j + 1, c + 1, currentMin);
-    if(right < currentMin) currentMin = right;
-    let down = findDist(mat, i + 1, j, c + 1, currentMin);
-    if(down < currentMin) currentMin = down;
-    let up = findDist(mat, i - 1, j, c + 1, currentMin);
-    if(up < currentMin) currentMin = up;
-
-    if(index.length) mat[index[0]][index[1]] = 1;
-
-    return currentMin > 1 ? Math.min(left, right, down, up, currentMin) : Math.min(left, right, down, up, c + 1)
-    // return currentMin;
-}
+   
+    let copy = mat[i][j];
+    mat[i][j] = null;
     
-let mat1 = [
+
+    let left = findDist(mat, i, j - 1, c + 1);
+
+    let right = findDist(mat, i, j + 1, c + 1);
+
+    let down = findDist(mat, i + 1, j, c + 1);
+
+    let up = findDist(mat, i - 1, j, c + 1);
+
+    mat[i][j] = copy;
+
+    let smallest =  Math.min(left, right, down, up) + 1;
+    return smallest;
+
+};
+    // return smallest === Infinity ? currentMin + 1 : smallest;
+    
+
+
+
+
+     // let left;
+    // let right;
+    // let down;
+    // let up;
+    // let res;
+// if(mat[i][j - 1] !== undefined && mat[i][j - 1] !== null) {
+    //     // left = findDist(mat, i, j - 1, c + 1, currentMin);
+    //     res = findDist(mat, i, j - 1, c + 1, currentMin) + 1;
+    //     return res !== Infinity ? res : c;
+    // }
+
+    // if(mat[i][j + 1] !== undefined && mat[i][j + 1] !== null) {
+    //     // right = findDist(mat, i, j + 1, c + 1, currentMin);
+    //     res = findDist(mat, i, j + 1, c + 1, currentMin) + 1;
+    //     return res !== Infinity ? res : c;
+    // }
+
+    // if(mat[i + 1] !== undefined && mat[i + 1][j] !== null) {
+    //     // down = findDist(mat, i + 1, j, c + 1, currentMin);
+    //     res = findDist(mat, i + 1, j, c + 1, currentMin);
+    //     return res !== Infinity ? res : c;
+    // }
+
+    // if(mat[i - 1] !== undefined && mat[i - 1][j] !== null) {
+    //     // up = findDist(mat, i - 1, j, c + 1, currentMin);
+    //     res = findDist(mat, i - 1, j, c + 1, currentMin);
+    //     return res !== Infinity ? res : c;
+    // }
+
+let mat2 = [
     [0,0,1,0,1,1,1,0,1,1],
     [1,1,1,1,0,1,1,1,1,1],
     [1,1,1,1,1,0,0,0,1,1],
@@ -57,6 +92,10 @@ let mat1 = [
     [1,1,1,0,1,1,0,1,0,1],
     [1,0,1,1,1,0,1,1,1,0]
 ];
+
+
+let mat1 = [[0,1,1,0,1,0,0,1,1,1,0,1,0,0,1,0,0,1,0,1,1,1,0,0,1,0,1,1,0,0,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,1,0,0,1,0,1,1,0,0,1,1,1,0,1,1,1,0,1,0,1,1,0,0,1,0,1,0,0,1,0,1,1,0,1,1,1,0,0,0,1,0,0,1,1,1,0,0]]
+
 let mat = [
     [1,1,1,1,1,0,1,0,1,0,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,0,1,1],
     [1,1,1,0,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1,0,0,1],
@@ -91,7 +130,6 @@ let mat = [
 ];
 
 console.log(updateMatrix(mat))
-
 // var findDist = function(mat, i, j, c, l = true, r = true, d = true, u = true) {
 //   if(i < 0 || j < 0 ) {
 //     c = 0;
@@ -207,3 +245,6 @@ mat[i][j] is either 0 or 1.
 There is at least one 0 in mat.
 
 */
+
+
+
