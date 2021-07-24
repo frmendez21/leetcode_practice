@@ -20,42 +20,6 @@ class ListNode{
     }
 };
 
-// var removeNthFromEnd = function(head, n) {
-
-//     const findPrevNode = (node, n) => {
-//         if(!node.next) return node;
-//         // console.log(arguments)
-
-//         let prev = node;
-//         let curr = prev;
-//         while(n > 0) {
-//             curr = curr.next;
-//             n--;
-//             if(!curr) break;
-//         }
-        
-//         return !curr || !curr.next ? prev : null; 
-//     }
-
-//     let prevNode = findPrevNode(head, n);
-//     let removeNode = prevNode && prevNode.next ? prevNode.next : null;
-//     let newNext = removeNode && removeNode.next ? removeNode.next : null;
-//     console.log('prev', prevNode)
-//     console.log('rem', removeNode)
-//     console.log('newnext', newNext)
-//     if(!prevNode) {
-//         removeNthFromEnd(head.next, n)
-//     } else if (removeNode && newNext) {
-//         prevNode.next = newNext;
-//     } else if(!newNext && removeNode) {
-//         head = head.next;
-//         head.next = null;
-//     } else {
-//         head = null;
-//     }
-//     return head;
-// };
-
 var removeNthFromEnd = function(head, n) { 
     let curr = head;
     let prev = curr;
